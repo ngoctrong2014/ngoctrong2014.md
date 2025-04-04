@@ -1,0 +1,50 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.time.LocalTime;
+
+public class Clock extends JPanel {
+    public Clock() {
+        Timer timer = new Timer(1000, e -> repaint());
+        timer.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        int width = getWidth();
+        int height = getHeight();
+        int centerX = width / 2;
+        int centerY = height / 2;
+        int radius = Math.min(width, height) / 2 - 10;
+
+        // Vẽ vòng tròn đồng hồ
+        g2d.setColor(Color.BLACK);
+        g2d.fillOval(centerX - radius, centerY - radius, radius * 2, radius * 2);
+
+        // Vẽ kim đồng hồ
+        LocalTime now = LocalTime.now();
+        drawHand(g2d, now.getHour() % 12 * 30 + now.getMinute() * 0.5, radius * 0.5, 6, Color.RED, centerX, centerY);
+        drawHand(g2d, now.getMinute() * 6, radius * 0.7, 4, Color.BLUE, centerX, centerY);
+        drawHand(g2d, now.getSecond() * 6, radius * 0.8, 2, Color.YELLOW, centerX, centerY);
+    }
+
+    private void drawHand(Graphics2D g2d, double angle, double length, int width, Color color, int cx, int cy) {
+        g2d.setColor(color);
+        g2d.setStroke(new BasicStroke(width));
+        AffineTransform old = g2d.getTransform();
+        g2d.rotate(Math.toRadians(angle - 90), cx, cy);
+        g2d.drawLine(cx, cy, cx + (int) length, cy);
+        g2d.setTransform(old);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Đồng hồ");
+        Clock clock = new Clock();
+        frame.add(clock);
+        frame.setSize(300, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
