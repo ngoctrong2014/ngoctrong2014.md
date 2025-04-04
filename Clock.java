@@ -1,6 +1,8 @@
-git clone https://github.com/ngoctrong2014/ngoctrong2014.md.git
-cd ngoctrong2014.md
-mv "đồng hồ" Clock.java  # Đổi tên file nếu cần
-git add Clock.java
-git commit -m "Thêm code đồng hồ Java"
-git push origin main
+public static void main(String[] args) {
+    JFrame frame = new JFrame("Đồng hồ");
+    Clock clock = new Clock();
+    frame.add(clock);
+    frame.setSize(300, 300);
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setVisible(true); // Đây là dòng quan trọng để hiển thị cửa sổ
+}
